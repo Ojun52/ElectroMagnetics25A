@@ -44,3 +44,35 @@
 	]
 }
 
+
+// 問題（例題）用の showybox ラッパー: `problem`
+// 色は付けず、単に枠で囲むだけのスタイルにします。
+#let problem(title: none, body, frame: (
+	border-color: black,
+	title-color: black,
+	footer-color: black,
+), footer: none) = {
+	if footer == none [
+		#showybox(title: title, frame: frame)[#body]
+	] else [
+		#showybox(title: title, frame: frame, footer: footer)[#body]
+	]
+}
+
+
+// 定理用の showybox ラッパー: `thm`
+// 新しいベースカラーを使い、他のラッパーと同じ `.lighten(...)` のバランスを保ちます。
+// ここでは落ち着いたティール系の色を採用します（既存の olive / indigo と異なる色）。
+#let thm(title: none, body, frame: (
+	border-color: rgb(220, 38, 38),
+	title-color: rgb(220, 38, 38).lighten(10%),
+	body-color: rgb(220, 38, 38).lighten(95%),
+	footer-color: rgb(220, 38, 38).lighten(80%),
+), footer: none) = {
+	if footer == none [
+		#showybox(title: title, frame: frame)[#body]
+	] else [
+		#showybox(title: title, frame: frame, footer: footer)[#body]
+	]
+}
+
