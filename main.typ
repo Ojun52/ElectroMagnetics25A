@@ -77,7 +77,7 @@ $ bold(E) = E(r) dot bold(n) $
 
 と書ける。ただし、 $bold(n)$ は位置 $bold(r)$ における、球に対する外向き単位法線ベクトルである。
 
-閉曲面 $S$ を、球の中心Oを中心とする半径 $r$ の円とすると、ガウスの法則より、
+閉曲面 $S$ を、球の中心Oを中心とする半径 $r$ の球とすると、ガウスの法則より、
 
 $
 integral.double_S bold(E) dot dif bold(s) &= integral.double_S E(r) bold(n) dot bold(n) dif bold(s) \
