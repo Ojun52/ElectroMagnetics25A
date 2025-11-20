@@ -112,11 +112,11 @@ $nabla$ (ナブラ)は、それぞれの成分に対する偏微分の操作を�
 
 $nabla$ はベクトルの形をしているので、形式的に「内積」や「外積」をとることができる。一般に、ベクトル場$bold(A)$に対して、$nabla$との内積を取ったものを発散 (divergence) と呼び、外積を取ったものを回転 (rotation) と呼ぶ。
 
-#def(title: [ベクトル場の発散 ( $nabla dot bold(A)$ ) の定義], footer: [これは$"div" bold(A)$(ダイバージェンス・エー)とも表記される。])[ 
+#def(title: [ベクトル場の発散 ( $nabla dot bold(A)$ ) の定義], footer: [これは$"div" bold(A)$ (ダイバージェンス・エー)とも表記される。])[ 
   $ nabla dot bold(A) := (partial A_x)/(partial x) + (partial A_y)/(partial y) + (partial A_z)/(partial z) $
 ]
 
-#def(title: [ベクトル場の回転 ( $nabla times bold(A)$ ) の定義], footer: [これは$"rot" bold(A)$(ローテーション・エー)とも表記される。])[ 
+#def(title: [ベクトル場の回転 ( $nabla times bold(A)$ ) の定義], footer: [これは$"rot" bold(A)$ (ローテーション・エー)とも表記される。$"rot" bold(A) = 0$ のとき、$bold(A)$の線積分は経路によらない。])[ 
   $ nabla times bold(A) := ((partial A_z)/(partial y) - (partial A_y)/(partial z), (partial A_x)/(partial z) - (partial A_z)/(partial x), (partial A_y)/(partial x) - (partial A_x)/(partial y)) $
 ]
 
@@ -134,3 +134,101 @@ $ integral.cont_C bold(A) dot dif bold(s) = integral.double_S (nabla times bold(
 ]
 
 証明は省略する。それぞれ微小な直方体、長方形について体積分、線積分を愚直に計算すればよい。
+
+また、(下付き添え字のみ用いる)Einsteinの縮約記法や、レヴィチヴィタの記号について軽く紹介する。
+
+3次元の2つのベクトル $bold(A)$ 、$bold(B)$ の内積は、
+
+$ bold(A) dot bold(B) = sum_i A_i B_i $
+
+ここで、$A_i$ などは、ベクトル $bold(A)$ の  $x,y,z$ 成分だと思えばよい。このように、同じ「$i$」という添え字をもつ記号の積がある場合、$sum$ を省略して次のように書いても良い。
+
+$ bold(A) dot bold(B) = A_i B_i $
+
+これをEinsteinの縮約記法という。
+
+外積についてこのように記述するために、以下の記号を導入する。
+
+#def(title: [レヴィチヴィタの記号 ( $epsilon_(i j k)$ ) の定義])[ 
+  $ epsilon_(i j k) := 
+  cases(
+    1 "if" (i, j, k) "が" (1, 2, 3) "の偶置換",
+    -1 "if" (i, j, k) "が" (1, 2, 3) "の奇置換",
+    0 "if" i = j "or" j = k "or" k = i
+  )
+  $
+]
+
+これは外積を便利に記述するための記号で、定義を詳しく覚える必要はない。この記号を用いると、ベクトル $bold(A)$ と $bold(B)$ の外積は、
+
+$ bold(A) times bold(B) = epsilon_(i j k) bold(e)_i A_j B_k $
+
+と書ける。$bold(e)_i$ は $i$ 軸方向の単位ベクトルである。ここで、$i$、$j$、$k$ を添え字としてもつ記号が2回ずつ現れているので、Einsteinの縮約記法により、$i$、$j$、$k$ についての和が自動的に取られる。
+
+最後に、電場と静電ポテンシャルの関係を表すのに重要なベクトル解析の恒等式を示しておく。
+
+#thm(title: [ベクトル解析の恒等式],
+footer: [rot $dot$ grad $Phi = 0$ ともいえる。])[ 
+  任意のスカラー関数 $Phi$ について、以下が成り立つ。
+  $ nabla times (nabla Phi) = 0 $
+]
+
+(証明) ベクトル場を $bold(A) = nabla Phi$ とおく。以下、$nabla_i$ は、$i$ 成分の微分を表す。レヴィチヴィタ記号は実数なので、積の順序は交換することに注意して、
+
+$
+nabla times bold(A) &= nabla times (nabla Phi) \
+&= epsilon_(i j k) e_i nabla_j nabla_k Phi \
+&= bold(e)_i (- epsilon_(i k j)) nabla_k nabla_j Phi \
+&= - nabla times bold(A)
+$
+
+したがって、$nabla times (nabla Phi) = 0$ がいえた。 $square$
+
+=== 静電ポテンシャル
+
+電場 $bold(E)(bold(x))$ 中で、無限遠から電荷 $q$ を点Aまでもってくることを考える。ここで、先ほど定義した電場 $bold(E)$ は力を表しているので、点Aにおける電場による力は $q bold(E)(bold(x))$ である。したがって、無限遠から点Aまで電荷を運ぶ際に外部がする仕事は、
+
+$ W = - integral_infinity^A q bold(E)(bold(x)) dot dif bold(s) $
+
+ここでさりげなく積分の上端と下端に点を用いているが、仕事は線積分によって求められるため、本来は経路が必要である。$nabla times bold(A)$ の定義でも示したが、$nabla times bold(A) = 0$ のとき、$bold(A)$の線積分は経路によらない。ここで、静電場 $bold(E)$ は $nabla times bold(E) = 0$ であることが知られているため、電場 $bold(E)$ による仕事は経路によらない。したがって、2点を示すだけで積分が定まる。
+
+$q=1$ としたときの仕事を静電ポテンシャル $Phi(A)$ と定義する。
+
+#def(title: [静電ポテンシャル $Phi(A)$ の定義])[ 
+  電場 $bold(E)(bold(x))$ によって作り出される、点Aにおける静電ポテンシャルは、
+  $ Phi(A) := - integral_infinity^A bold(E)(bold(x)) dot dif bold(s) $
+]
+
+静電ポテンシャル $Phi(bold(x))$ はスカラー関数であり、電場 $bold(E)$ はこの静電ポテンシャルの勾配によって次のように表される。
+
+#law(title: [電場と静電ポテンシャルの関係])[ 
+  任意の位置 $bold(x)$ における電場 $bold(E)(bold(x))$ は、静電ポテンシャル $Phi(bold(x))$ を用いて、以下のように表される。
+  $ bold(E)(bold(x)) = - nabla Phi(bold(x)) $
+]
+
+ここで、ベクトル解析の恒等式 $nabla times (nabla Phi) = 0$ と合わせると、以下が言える。
+
+#law(title: [静電場の性質],
+footer: [「静電場は渦なし」などと表現される。])[ 
+  $ nabla times bold(E) = 0 $
+]
+
+=== 微分形のガウスの法則
+
+ガウスの法則に発散定理を用いる。
+
+$ 
+integral.double_S bold(E) dot dif bold(s) = integral.triple_V nabla dot bold(E) dif V = 1/epsilon_0 integral.triple_V rho(bold(x)) dif V
+$
+
+ここで、任意の $V$ について上式が成り立つため、被積分関数についても等式が成り立つ。(例えば $V$ に1点加えても積分が等しいので、その点での被積分関数も等しいはずである。)
+
+したがって、次の法則が成り立つ。
+
+#law(title: [微分形のガウスの法則],
+footer: [静電場を前提に議論したが、この法則は電場が時間依存しても成り立つ。])[ 
+  任意の位置 $bold(x)$ において、静電場 $bold(E)(bold(x))$ と電荷密度 $rho(bold(x))$ について、以下が成り立つ。
+  $ nabla dot bold(E)(bold(x)) = 1/epsilon_0 rho(bold(x)) $
+]
+
+これは非常に強力な法則であり、マクスウェル方程式の一つである。
