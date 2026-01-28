@@ -254,3 +254,265 @@ $
 逆に、ポアソン方程式と、$nabla times bold(E) = 0$ を、電場を特徴づける法則とすることもできる。つまり、これらの方程式を満たすベクトル場 $bold(E)$ は、静電場である、と定義できる。
 
 したがって、電場はポアソン方程式を解くことにより求めることもできる。
+
+=== グリーンの恒等式
+
+またベクトル解析の話であるが、次のグリーンの恒等式を紹介しておく。
+
+#thm(title: [グリーンの恒等式],
+footer: [いわば、「3次元版部分積分」である。])[ 
+  任意のスカラー関数 $Phi(bold(x))$ と $Psi(bold(x))$、および閉曲面 $S$ に囲まれた領域 $V$ について、以下が成り立つ。
+  $
+  integral.triple_V Phi laplace psi dif V = integral.double_S (Phi nabla psi) dot dif bold(s) - integral.triple_V (nabla Phi) dot (nabla psi) dif V
+  $
+]
+
+== 磁場
+
+=== 電荷保存則
+
+閉曲面 $S$ 、その中の領域 $V$ について考える。
+この領域から流出する正味の電荷について式を立てると、電荷が保存することから以下の式が立てられる。
+ただし、電流密度を $bold(j)$ としている。
+
+$
+  integral.double_S bold(j) dot dif bold(s) = - (partial)/(partial t) integral.triple_V rho(bold(x), t) dif V
+$
+
+左辺に発散定理を適用して移項すると、
+
+$
+integral.triple_V (nabla dot bold(j) + (partial rho)/(partial t)) dif V = 0
+$
+
+となる。領域 $V$ は任意なので、以下の等式が成り立つ。
+
+#law(title: [微分形の電荷保存則])[
+  任意の位置 $bold(x)$ 、時間 $t$ において、電流密度 $bold(j)$ と電荷密度 $rho$ について以下が成り立つ。
+
+  $
+    nabla dot bold(j)(bold(x), t) + (partial rho(bold(x), t))/(partial t) = 0
+  $
+]
+
+=== ビオ・サバールの法則
+
+#law(title: "ビオ・サバールの法則")[ 
+  電流素片 $I_2 dif bold(s_2)$ があるとする。
+  これが位置 $bold(r_1)$ に作る磁場は、以下のように与えられる。
+
+  $
+    dif bold(B)_2 (bold(r_1)) = (mu_0)/(4 pi) (I_2 dif bold(s_2))/norm(bold(r_1) - bold(r_2))^2  times (bold(r_1)-bold(r_2))/(||bold(r_1)-bold(r_2)||)
+  $
+]
+
+これを線積分すると、次の法則が得られる。
+
+#law(title: "ビオ・サバールの法則 (積分形)", footer: [積分の変数は $bold(s)$ である。])[ 
+  電流 $I$ が流れている回路 $C$ があるとする。これが位置 $bold(r)$ に作る磁場は、
+
+  $
+    bold(B)(bold(r)) = (mu_0)/(4 pi) integral.cont_C (I dif bold(s))/norm(bold(r) - bold(s))^2  times (bold(r)-bold(s))/(||bold(r)-bold(s)||)
+  $
+
+]
+
+これらは、静電場の議論で言うところのクーロンの法則に対応している。
+
+=== ベクトルポテンシャル
+
+ベクトルポテンシャル $bold(A)(bold(r))$ を次のように定める。
+
+#def(title: [ベクトルポテンシャル])[
+  $
+    bold(A)(bold(r)) = mu_0/(4 pi) integral.triple_V bold(j(bold(x)))/norm(bold(r) - bold(x))^2 dif V
+  $
+]
+
+このようにすると、$nabla times bold(A) = bold(B)$ が成り立つ。これは、静電場で言うところの静電ポテンシャルに対応している。
+
+ここで、$nabla dot bold(B) = nabla dot (nabla times bold(A)) = 0$ が成り立つ。これは、磁場に対するガウス則とよばれ、マクスウェル方程式の一つである。
+
+証明は省略するが、$nabla dot bold(B) = 0$ は、磁場が時間依存していても成り立つ。
+
+静電ポテンシャルと同様、ベクトルポテンシャルにはいくらかの不定性がある。それを利用して、静磁場では$nabla dot bold(A) = 0$ となるように $bold(A)$ を定めた。
+
+先ほどは $nabla dot bold(B)$ について調べたので、$nabla times bold(B)$ について述べる。静磁場について、以下の法則が成り立つ。
+
+#law(title: [アンペール則])[
+  任意の位置 $bold(r)$ において、静磁場 $bold(B)(bold(r))$ と電流密度 $bold(j)(bold(r))$ について、以下が成り立つ。
+  $
+    nabla times bold(B)(bold(r)) = mu_0 bold(j)(bold(r))
+  $
+]
+
+(証明) $
+nabla times bold(B) &= 
+nabla times (nabla times bold(A)) \
+&=  nabla(nabla dot bold(A)) - nabla dot nabla bold(A) \
+&= 0 - laplace bold(A) \
+&= - mu_0/(4 pi) integral.triple_V bold(j(bold(x))) laplace (1/norm(bold(r) - bold(x))) dif V \
+&= - mu_0 /(4pi) dot integral.triple_V bold(j(bold(x))) (- 4 pi delta(bold(r) - bold(x))) dif V \
+&= mu_0 integral.triple_V bold(j(bold(x))) delta(bold(r) - bold(x)) dif V \
+&= mu_0 bold(j)(bold(r))
+$
+
+よって示された。 $square$
+
+なお、この途中式より、磁場に対するポアソン方程式を導くことができる。
+
+#law(title: [磁場に対するポアソン方程式])[
+  任意の位置 $bold(r)$ において、静磁場 $bold(B)(bold(r))$ と電流密度 $bold(j)(bold(r))$ について、以下が成り立つ。
+  $
+    laplace bold(A)(bold(r)) = - mu_0 bold(j)(bold(r))
+  $
+]
+
+=== ローレンツ力
+
+#law(title: [ローレンツ力])[
+  位置 $bold(r)$ に電場 $bold(E)$ がかかっているとする。この位置で、電荷が速度 $bold(v)$ で移動しているとする。その位置の電荷密度を $rho$ とすると、位置 $bold(r)$ にかかる単位体積あたりの力は以下のようになる。
+
+  $
+    bold(f) = rho (bold(E) + bold(v) times bold(B))
+  $
+]
+
+(証明) 磁場による微小な力を $dif bold(F)_M$ 、電場による微小な力を $dif bold(F)_E$ とする。
+
+$
+dif bold(F)_M = I dif bold(s) times bold(B) = bold(j) dif V times bold(B) = rho bold(v) dif V times bold(B)
+$
+
+$
+dif bold(F)_E = rho dif V bold(E)
+$
+
+全体の力 $bold(F)$ は、
+
+$
+  bold(F) = dif bold(F)_E + dif bold(F)_M = rho dif V (bold(E) + bold(v) times bold(B))
+$
+
+となる。単位体積あたりで考えると、以下の式が成り立つ。
+
+$
+  bold(f) = rho(bold(E) + bold(v) times bold(B))
+$
+
+よって、示された。 $square$
+
+=== レンツ・ノイマン則とファラデー則
+
+実験事実として、以下のことがわかっている。
+
+#law(title: [レンツ・ノイマン則])[
+  閉曲線 $C$ に囲まれた曲面 $S$ を考える。このとき、時間 $t$ における磁束を、
+
+  $
+    Phi(t) = integral.double_S bold(B)(bold(x), t) dot dif bold(s)
+  $
+
+  と定義する。このとき、時間 $t$ における誘導起電力 $V^("emf")$ は、以下のように与えられる。
+
+  $
+    V^("emf") = - k (d Phi(t))/(d t)
+  $
+
+  実際は相対性原理より、比例定数 $k=1$ であることが示されるため、
+
+  $
+    V^("emf") = - (d Phi(t))/(d t)
+  $
+
+  である。
+]
+
+この法則から、次のファラデー則が導かれる。
+
+#law(title: [ファラデー則])[
+  任意の閉曲線 $C$ に囲まれた曲面 $S$ について、時間 $t$ における電場 $bold(E)(bold(x), t)$ と磁場 $bold(B)(bold(x), t)$ は、以下の関係を満たす。
+
+  $
+    nabla times E = - (partial bold(B))/(partial t)
+  $
+]
+
+(証明) 閉曲線 $C$ に囲まれた曲面 $S$ を考える。これは固定する（つまり"回路"は動かない）。$C$ および $S$ を固定したことで、レンツ・ノイマン則の全微分は、偏微分として適用してよい。
+
+そもそも起電力の定義より、
+
+$
+  V^("emf") = integral.cont_C bold(E)(bold(x), t) dot dif bold(s)
+$
+
+である。また、先述した磁束の定義に注意する。
+レンツ・ノイマン則にこれらの定義を代入すると、
+
+$
+  integral.cont_C bold(E)(bold(x), t) dot dif bold(s) =
+  - integral.double_S (partial bold(B)(bold(x), t))/(partial t) dot dif bold(s)
+$
+
+である。左辺に回転定理を適用した上で移項すると、
+
+$
+  integral.double_S (nabla times bold(E)(bold(x), t) + (partial bold(B)(bold(x), t))/(partial t)) dot dif bold(s) = 0
+$
+
+となる。ここで、$S$ は任意だったので、
+
+$
+  nabla times bold(E) = - (partial bold(B))/(partial t)
+$
+
+が成り立つ。$square$
+
+これはマクスウェル方程式の一つである。
+
+最後のマクスウェル方程式を示す。
+
+#law(title: [アンペール・マクスウェルの法則])[
+  任意の位置 $bold(r)$ 、時間 $t$ において、電場 $bold(E)(bold(r), t)$ と静磁場 $bold(B)(bold(r), t)$ 、および電流密度 $bold(j)(bold(r), t)$ について、以下が成り立つ。
+  $
+    nabla times bold(B) = mu_0 (bold(j) + epsilon_0 (partial bold(E))/(partial t))
+  $
+]
+
+(証明) 
+$
+  nabla dot (nabla times bold(B) - mu_0 bold(j)) &= 0 - mu_0 nabla dot bold(j) \
+  &= mu_0 (partial rho)/(partial t) \
+  &= epsilon_0 mu_0 (partial)/(partial t) (nabla dot bold(E)) \
+$
+
+ただし、1行目から2行目には電荷保存則、2行目から3行目にはガウス則を用いた。
+
+$nabla dot$ の中身を比較して、
+
+$
+  nabla times bold(B) = mu_0 (bold(j) + epsilon_0 (partial bold(E))/(partial t))
+$
+
+が示された。 $square$
+
+以上で、マクスウェル方程式が全て証明できた。
+以下に4つのマクスウェル方程式をまとめておく。これらは、時間や空間に関係なく成り立つ。
+
+#law(title: [マクスウェル方程式])[
+  $
+    nabla dot bold(E) = rho/epsilon_0
+  $
+
+  $
+    nabla times bold(E) = - (partial bold(B))/(partial t)
+  $
+
+  $
+    nabla dot bold(B) = 0
+  $
+
+  $
+    nabla times bold(B) = mu_0 (bold(j) + epsilon_0 (partial bold(E))/(partial t))
+  $
+] 
